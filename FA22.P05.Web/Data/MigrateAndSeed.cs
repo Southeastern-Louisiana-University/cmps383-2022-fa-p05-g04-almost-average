@@ -65,14 +65,14 @@ public static class MigrateAndSeed
         await userManager.CreateAsync(adminUser, defaultPassword);
         await userManager.AddToRoleAsync(adminUser, RoleNames.Admin);
 
-        var bobUser = new User
+        var matthewUser = new User
         {
             UserName = "matthew"
         };
         await userManager.CreateAsync(matthewUser, defaultPassword);
         await userManager.AddToRoleAsync(matthewUser, RoleNames.User);
 
-        var sueUser = new User
+        var travisUser = new User
         {
             UserName = "travis"
         };

@@ -19,14 +19,14 @@ namespace FA22.P05.Web.Controllers
         public BidingController(DataContext dataContext)
         {
             _dataContext = dataContext;
-            _bids = dataContext.Set<Bid>();
+            _bids = dataContext.Set<Bids>();
             _listings = dataContext.Set<Listing>();
         }
 
         [HttpGet]
         [Authorize]
         [Route("{id}")]
-        public ActionResult<BidDto> GetBidById(int id)
+        public ActionResult<BidsDto> GetBidById(int id)
         {
             var result = _bids.FirstOrDefault(x => x.Id == id);
             if(result == null)
@@ -39,36 +39,36 @@ namespace FA22.P05.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public  ActionResult<BidDto> CreateBid(BidDto bidDto)
+        public  ActionResult<BidsDto> CreateBid(BidsDto bidsDto)
         {
-            if (IsInvalid(bidDto)){
+            if (IsInvalid(bidsDto)){
                     return BadRequest();
                  }
-            var listing = _listings.FirstOrDefault(x => x.Id == bidDto.ListingId);
+            var listing = _listings.FirstOrDefault(x => x.Id == bidsDto.ListingId);
 
             if(listing == null) {
                 return BadRequest();
             }
-            var bid = new Bid {
-                BidAmount = bidDto.BidAmount,
+            var bid = new Bids {
+                BidAmount = bidsDto.BidAmount,
                 ListingId = listing.Id,
                 UserId = User.GetCurrentUserId() ?? throw new Exception("missing user id")
             };
             _bids.Add(bid);
            _dataContext.SaveChanges();
-            bidDto.Id = bid.Id;
+            bidsDto.Id = bid.Id;
 
-            return CreatedAtAction(nameof(GetBidById), new { id = bidDto.Id }, bidDto);
+            return CreatedAtAction(nameof(GetBidById), new { id = bidsDto.Id }, bidsDto);
         }
        
-        private static bool IsInvalid(BidDto dto)
+        private static bool IsInvalid(BidsDto dto)
         {
             return ((dto.BidAmount <= 0) || (dto.UserId <= 0 ) || (dto.ListingId <= 0));
         }
-        public static IQueryable<BidDto> GetBidDtos(IQueryable<Bids> bids)
+        public static IQueryable<BidsDto> GetBidDtos(IQueryable<Bids> bids)
         {
             return bids
-                .Select(x => new BidDto
+                .Select(x => new BidsDto
                 {
                     Id = x.Id,
                     BidAmount = x.BidAmount,
