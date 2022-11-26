@@ -22,6 +22,5 @@ public class Listing
     public  User? User { get; set; }
     public ICollection<ItemListing>? ItemsForSale { get; set; }
     public ICollection<Bids>? ListingBids { get; set; }
-
-
+    public int? OwnerId { get; internal set; }
 }

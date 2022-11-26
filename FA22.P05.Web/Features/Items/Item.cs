@@ -16,5 +16,6 @@ public class Item
     public int UserId { get; set; }
     public User? User { get; set; }
     public virtual ICollection<ItemListing> ItemListings { get; set; } = new List<ItemListing>();
-
+    public int? OwnerId { get; internal set; }
+    public object Owner { get; internal set; }
 }
