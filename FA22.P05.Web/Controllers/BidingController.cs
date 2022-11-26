@@ -12,7 +12,7 @@ namespace FA22.P05.Web.Controllers
     [ApiController]
     public class BidingController : ControllerBase
     {
-        private readonly DbSet<Bid> _bids;
+        private readonly DbSet<Bids> _bids;
         private readonly DataContext _dataContext;
         private readonly DbSet<Listing> _listings;
 
@@ -65,7 +65,7 @@ namespace FA22.P05.Web.Controllers
         {
             return ((dto.BidAmount <= 0) || (dto.UserId <= 0 ) || (dto.ListingId <= 0));
         }
-        public static IQueryable<BidDto> GetBidDtos(IQueryable<Bid> bids)
+        public static IQueryable<BidDto> GetBidDtos(IQueryable<Bids> bids)
         {
             return bids
                 .Select(x => new BidDto
